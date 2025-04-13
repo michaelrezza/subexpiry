@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><title>Subscription List</title></head>
+<body>
+  <h1>Active Subscriptions</h1>
+  <ul id="subs"></ul>
+  <script>
+    fetch('/subs').then(r => r.json()).then(data => {
+      const list = document.getElementById('subs');
+      data.forEach(sub => {
+        const li = document.createElement('li');
+        li.innerText = sub.name + ' - ' + sub.link + ' (Expires: ' + sub.expiry + ')';
+        list.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
