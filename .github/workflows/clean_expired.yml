@@ -1,20 +1,28 @@
-name: Clean Expired Subscriptions
+name: clean
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 * * * *'  
   workflow_dispatch:
 
 jobs:
   clean:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Create DB if not exists
+        run: python create_db.py
+
       - name: Run Cleaner
         run: python expired_cleaner.py
